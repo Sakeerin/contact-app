@@ -10,11 +10,6 @@ class DashboardController extends Controller
      * Handle the incoming request.
      */
 
-    
-    // public function __construct()
-    // {
-    //     $this->middleware(['auth']);
-    // }
     public function __invoke(Request $request)
     {
         $user = $request->user()->loadCount(['companies','contacts']);
