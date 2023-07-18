@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\DB;
 class ContactController extends Controller
 {
     protected function userCompanies(){
-        return Company::forUser(auth()->user())->orderBy('name')->pluck('name', 'id');
+        // return Company::forUser(auth()->user())->orderBy('name')->pluck('name', 'id');
+        return Company::orderBy('name')->pluck('name', 'id');
     }
 
     public function index()

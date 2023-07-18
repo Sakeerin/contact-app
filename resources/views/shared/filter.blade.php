@@ -56,7 +56,7 @@
 
     const toggleClearButton = () => {
       let query = location.search;
-      let pattern = /[?&]search/;  // ?company_id&search=
+      let pattern = /[?&]search/;  // ?company_id&search= or ?search=
       let button = document.getElementById('reset-filter-btn');
 
       if(pattern.test(query)){

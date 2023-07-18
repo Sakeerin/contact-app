@@ -13,9 +13,12 @@ use Illuminate\Database\Query\Builder;
 
 class Contact extends Model
 {
-    use HasFactory, SoftDeletes, AllowedFilterSearch, AllowedSort;
+    use HasFactory, SoftDeletes, AllowedFilterSearch, AllowedSort; // FilterSearchScope
     protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
-    
+
+    // public $searchColumns = ['first_name', 'last_name', 'email'];
+    // public $filterColumns = ['company_id'];
+
     public function company()
     {
         return $this->belongsTo(Company::class)->withTrashed();
@@ -26,7 +29,8 @@ class Contact extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 

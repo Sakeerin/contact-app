@@ -23,3 +23,19 @@
     
   </td>
 </tr>
+
+{{-- fn delete contact another way --}}
+{{-- <a href="{{ route('contacts.destroy', $contact->id) }}" class="btn btn-sm btn-circle btn-outline-danger btn-delete" title="Delete"><i class="fa fa-times"></i></a>
+<script>
+  document.querySelectorAll(".btn-delete").forEach((button) => {
+    button.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (confirm("Are you sure?")) {
+            let action = this.getAttribute("href");
+            let form = document.getElementById("form-delete");
+            form.setAttribute("action", action);
+            form.submit();
+        }
+    });
+});
+</script> --}}
