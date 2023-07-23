@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Contact;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -36,5 +37,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        // Route model binding - Explicit
+        // Route::model('contact', Contact::class);
+
+        // Route::bind('contact', function($value){
+        //     return Contact::where('first_name', $value)->firstOrFail();
+        // });
+
+        // Route::bind('post', function($value){
+        //     return Contact::where('slug', $value)->where('publised_at', '<=', now())->firstOrFail();
+        // });
     }
 }

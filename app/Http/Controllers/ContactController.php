@@ -7,28 +7,32 @@ use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
-    protected function userCompanies(){
-        // return Company::forUser(auth()->user())->orderBy('name')->pluck('name', 'id');
-        return Company::orderBy('name')->pluck('name', 'id');
+
+    protected function userCompanies()
+    {
+        return Company::forUser(auth()->user()->id)->orderBy('name')->pluck('name', 'id');
+        // return Company::orderBy('name')->pluck('name', 'id');
     }
 
     public function index()
     {
         $companies = $this->userCompanies();
-        
+
         $contacts = Contact::allowedTrash()
             ->allowedSorts(['first_name', 'last_name', 'email'], "-id")
             ->allowedFilters('company_id')
             ->allowedSearch('first_name', 'last_name', 'email')
             // ->forUser(auth()->user())
-            ->forUser(auth()->user())
+            // ->forUser(auth()->user()->id)
+            ->auth()->user()
             ->with("company")
             ->paginate(10);
-       
+
         // $contactsCollection = Contact::latest()->get();
         // $perPage = 10;
         // $currectPage = request()->query('page', 1);
@@ -53,10 +57,10 @@ class ContactController extends Controller
     {
         // if($request->filled('first_name')){}
         // $request->validate($this->rules());
-        
+
         $request->user()->contacts()->create($request->all());
         return redirect()->route('contacts.index')->with('message', 'Contact has been adden successfully');
-        
+
     }
 
 
@@ -78,7 +82,7 @@ class ContactController extends Controller
 
     public function update(ContactRequest $request, Contact $contact)
     {
-        
+
         // $request->validate($this->rules());
 
         $contact->update($request->all());
@@ -109,7 +113,7 @@ class ContactController extends Controller
             ->with('undoRoute', getUndoRoute('contacts.destroy', $contact));
     }
 
-   
+
 
     public function forceDelete(Contact $contact)
     {

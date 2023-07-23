@@ -16,7 +16,8 @@ class CompanyController extends Controller
         $companies = Company::allowedTrash()
             ->allowedSorts(['name', 'website', 'email'], '-id')
             ->allowedSearch('name', 'website', 'email')
-            ->forUser(auth()->user())
+            // ->forUser(auth()->user())
+            ->forUser(auth()->user()->id)
             ->withCount("contacts")
             ->paginate(10);
 
@@ -81,14 +82,16 @@ class CompanyController extends Controller
             ->with('undoRoute', getUndoRoute('companies.restore', $company));
     }
 
-    public function restore(Company $company){
+    public function restore(Company $company)
+    {
         $company->restore();
         return back()
             ->with('message', 'Company has been restored from trash.')
             ->with('undoRoute', getUndoRoute('companies.destroy', $company));
     }
 
-    public function forceDelete(Company $company){
+    public function forceDelete(Company $company)
+    {
         $company->forceDelete();
         return back()
             ->with('message', 'Company has been removed permanantly.');
